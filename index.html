@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SICAI · Verificación de datos</title>
+<style>
+  :root{
+    --bg:#f3f5f8; --card:#ffffff; --text:#1a1d23; --muted:#5b6472;
+    --accent:#1b5fae; --accent-dark:#164b8a; --border:#dde2e9;
+    --danger:#b3261e; --ok:#1e7a44; --warn-bg:#fff6e5; --warn-border:#f0c766;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14161a; --card:#1d2024; --text:#eef0f3; --muted:#9aa3b2;
+      --accent:#5b9bdc; --accent-dark:#4886c6; --border:#2d3137;
+      --danger:#ff7a70; --ok:#6fd49a; --warn-bg:#2a2410; --warn-border:#6b551c;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14161a; --card:#1d2024; --text:#eef0f3; --muted:#9aa3b2;
+    --accent:#5b9bdc; --accent-dark:#4886c6; --border:#2d3137;
+    --danger:#ff7a70; --ok:#6fd49a; --warn-bg:#2a2410; --warn-border:#6b551c;
+    color-scheme: dark;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-padding-top: env(safe-area-inset-top, 0px);}
+  body{
+    margin:0; min-height:100%;
+    background:var(--bg); color:var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    display:flex; align-items:center; justify-content:center;
+    padding-left:16px; padding-right:16px;
+  }
+  .wrap{width:100%; max-width:420px; margin:40px 0;}
+  .logo-row{display:flex; align-items:center; gap:10px; margin-bottom:18px; justify-content:center;}
+  .logo-badge{
+    width:40px; height:40px; border-radius:10px; background:var(--accent);
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:17px; flex-shrink:0;
+  }
+  .logo-text{font-weight:700; font-size:20px; letter-spacing:0.5px;}
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 26px; box-shadow:0 4px 18px rgba(0,0,0,0.06);
+  }
+  h1{font-size:17px; margin:0 0 4px; font-weight:600;}
+  .sub{color:var(--muted); font-size:13.5px; margin:0 0 22px; line-height:1.4;}
+  label{display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:var(--text);}
+  input{
+    width:100%; padding:11px 12px; border-radius:9px; border:1px solid var(--border);
+    background:transparent; color:var(--text); font-size:14.5px; margin-bottom:16px;
+    outline:none; transition:border-color .15s;
+  }
+  input:focus{border-color:var(--accent);}
+  .btn{
+    width:100%; padding:12px; border:none; border-radius:9px; background:var(--accent);
+    color:#fff; font-size:15px; font-weight:600; cursor:pointer; transition:background .15s;
+  }
+  .btn:hover{background:var(--accent-dark);}
+  .foot{text-align:center; color:var(--muted); font-size:12px; margin-top:16px;}
+
+  /* reveal panel */
+  .reveal{display:none;}
+  .reveal.show{display:block;}
+  .reveal .joke{
+    font-size:16px; font-weight:700; margin:0 0 4px;
+  }
+  .reveal .real{
+    background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px;
+    padding:12px 14px; font-size:13.5px; line-height:1.5; margin:12px 0 18px;
+  }
+  .reveal .real b{color:var(--danger);}
+  .signs{margin:0; padding-left:18px; font-size:13.5px; line-height:1.6; color:var(--text);}
+  .signs li{margin-bottom:6px;}
+  .ok-line{color:var(--ok); font-weight:600; font-size:13.5px; margin-top:16px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo-row">
+    <div class="logo-badge">S</div>
+    <div class="logo-text">SICAI</div>
+  </div>
+
+  <div class="card" id="loginCard">
+    <h1>Verificación de datos</h1>
+    <p class="sub">Hemos detectado una inconsistencia en tu perfil. Verificá tus datos antes de las próximas 24 horas para evitar la suspensión temporal de tu cuenta en SICAI.</p>
+    <form id="simForm" onsubmit="return false;">
+      <label for="u">Usuario / Carné</label>
+      <input id="u" type="text" autocomplete="off" placeholder="Ej. 2023012345">
+      <label for="p">Contraseña</label>
+      <input id="p" type="password" autocomplete="off" placeholder="••••••••">
+      <button class="btn" id="submitBtn" type="button">Verificar mis datos</button>
+    </form>
+    <p class="foot">Portal interno — Sistema de Información y Control Académico</p>
+  </div>
+
+  <div class="card reveal" id="revealCard">
+    <p class="joke">¡Gracias por confiar, ya "tenemos" tus datos!</p>
+    <div class="real">
+      <b>Tranquilo/a:</b> esto fue una <b>simulación de phishing</b> para el proyecto de Fundamentos de Ciberseguridad. No se envió, guardó ni capturó absolutamente ningún dato real — lo que hayas escrito se quedó solo en tu navegador y ya fue descartado.
+    </div>
+    <p style="font-weight:600; margin-bottom:8px;">¿Qué señales debiste notar?</p>
+    <ul class="signs">
+      <li><b>Urgencia artificial:</b> "24 horas" o tu cuenta se suspende — presión para que actúes sin pensar.</li>
+      <li><b>Dominio/URL ajeno:</b> esta página no vive en el dominio real de SICA ni de la universidad.</li>
+      <li><b>Pide contraseña fuera del flujo normal:</b> SICA nunca te pedirá "verificar" tu clave por un enlace externo.</li>
+      <li><b>Mensaje genérico de "inconsistencia":</b> sin detalles específicos de tu cuenta real.</li>
+      <li><b>Canal inesperado:</b> llegaste por un enlace compartido, no desde el portal oficial donde iniciás sesión normalmente.</li>
+    </ul>
+    <p class="ok-line">✔ Buen reflejo de seguridad la próxima vez: verificá la URL y nunca ingreses credenciales desde un enlace que no buscaste vos mismo/a.</p>
+  </div>
+</div>
+
+<script>
+  document.getElementById('submitBtn').addEventListener('click', function(){
+    document.getElementById('loginCard').style.display = 'none';
+    document.getElementById('revealCard').classList.add('show');
+  });
+</script>
+</body>
+</html>
